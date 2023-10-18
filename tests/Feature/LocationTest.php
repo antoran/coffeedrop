@@ -37,6 +37,7 @@ beforeEach(
 
 describe('fetch', function () {
     beforeEach(fn () => Location::factory(4)->create());
+    beforeEach(fn() => $this->count = Location::count());
 
     it('can get locations', fn () => test()
         ->getJson(route('api.v1.locations.index'))
@@ -70,7 +71,7 @@ describe('fetch', function () {
                 ]
             ]
         ])
-        ->assertJsonCount(5, 'data'));
+        ->assertJsonCount($this->count, 'data'));
 
     it('can get locations with distance', fn () => test()
         ->getJson(route('api.v1.locations.index', ['postcode' => 'CV1 4JP']))
@@ -92,7 +93,7 @@ describe('fetch', function () {
                 ]
             ]
         ])
-        ->assertJsonCount(5, 'data'));
+        ->assertJsonCount($this->count, 'data'));
 
     it('can get nearest location', fn () => test()
         ->getJson(route('api.v1.locations.nearest', ['postcode' => $this->location->postcode]))
